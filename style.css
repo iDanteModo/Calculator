@@ -34,10 +34,14 @@ body {
     flex-grow: 1;
     background-color: darkgray;
     margin: 12px;
+    height: 200px;
+    overflow: hidden;
 }
 
 .calcDisplay p{
     align-self: stretch;
+    margin-left: 10px;
+
 
 }
 

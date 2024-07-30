@@ -13,7 +13,7 @@ let operator , number1 , number2, trigger = true, keepTheValue = false, total =0
 function calculatorDisplay(){
     buttons.forEach(button => {
         button.value = button.textContent;
-
+        adjustFontSize(display);
         button.addEventListener('click', () => {
             if(button.value == "C") {
                 trigger = true;
@@ -43,14 +43,12 @@ function calculatorDisplay(){
                 operator =3;
                 display.textContent = "0";
                 return operator;
-            }else if(button.value ==".") {
-                trigger = false;
-                operator =4;
-                display.textContent = "0";
-                return operator;
-            }else if (button.value =="="){
-        
-            }else if (trigger == true && display.textContent.length == 1 && display.textContent == '0' && button.value != "C") {
+            }else if (button.value =="=") {
+            }else if (trigger == true && button.value == ".") {
+                display.textContent += button.value;
+                number1 = display.textContent;
+                return number1;
+            }else if (trigger == true && display.textContent.length == 1 && display.textContent == '0' && button.value != "C" && button.value != ".") {
                 display.textContent = button.value ;
                 number1 = display.textContent;
                 return number1;
@@ -58,6 +56,10 @@ function calculatorDisplay(){
                 display.textContent += button.value;
                 number1 = display.textContent;
                 return number1;
+            }else if(trigger == false && button.value == "."){
+                display.textContent += button.value;
+                number2 = display.textContent;
+                return number2;
             }else if (trigger == false && display.textContent.length == 1 && display.textContent == '0' && button.value != "C") {
                 display.textContent = button.value ;
                 number2 = display.textContent;
@@ -73,13 +75,15 @@ function calculatorDisplay(){
 
 result.addEventListener('click', () =>{
     operate(number1, number2 ,operator)
+    buttons.forEach(button => {
+        button.classList.remove('active');
+    })
 });
 
-function operate(number1, number2, operator){
-    
+function operate(number1, number2, operator){    
     if(keepTheValue == false){
-        n1 = parseInt(number1);
-        n2 = parseInt(number2);
+        n1 = parseFloat(number1);
+        n2 = parseFloat(number2);
         console.log(`N1 = ${n1} and N2 = ${n2} trigger is ${trigger}`);
         if( operator == 0) {
             display.textContent = n1 / n2;
@@ -98,8 +102,8 @@ function operate(number1, number2, operator){
             total = n1 + n2;
             keepTheValue = true;
         }
-    }else if( keepTheValue = true){
-        n2 = parseInt(number2);
+    }else if( keepTheValue == true){
+        n2 = parseFloat(number2);
         n1 = total;
         console.log(`N1 = ${n1} and N2 = ${n2} trigger is ${trigger}`);
         if( operator == 0) {
@@ -119,9 +123,32 @@ function operate(number1, number2, operator){
             total = n1 + n2;
             keepTheValue = true;
         }
+    }else if(n2 == NaN){
+        display.textContent = total;
     } 
+    adjustFontSize(display);
 }
 
+function adjustFontSize(display) {
+    const maxFontSize = 200; // Maximum font size in pixels
+    const minFontSize = 80; // Minimum font size in pixels
+    const maxLength = 6; // Maximum number of characters before font size starts decreasing
 
+    const length = display.textContent.length;
+
+    console.log(`Current display length: ${length}`);
+    
+    if (length > maxLength) {
+        // Calculate the font size based on the number of characters
+        let newSize = maxFontSize - (length - maxLength) * 30; // Scale down more aggressively
+        newSize = Math.max(newSize, minFontSize); // Ensure font size doesn't go below min
+        display.style.fontSize = newSize + 'px'; 
+    } else {
+        display.style.fontSize = maxFontSize + 'px';
+    }
+}
+
+adjustFontSize(display);
 calculatorDisplay();
  
+
