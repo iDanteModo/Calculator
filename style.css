@@ -26,6 +26,8 @@ body {
     font-size: 100px;
     margin: 0 ;
     padding: 0;
+    border: 2px darkgray solid;
+
 }
 
 .calcDisplay {
@@ -37,6 +39,7 @@ body {
     height: 200px;
     overflow: hidden;
     align-items: center;
+    
 }
 
 .calcDisplay p{
@@ -93,4 +96,8 @@ a {
 
 button.active {
     background-color: darkorange;
+}
+
+button {
+    background-color: gainsboro;
 }
