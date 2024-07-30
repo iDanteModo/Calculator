@@ -4,7 +4,8 @@
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector("#display")
 const result = document.querySelector('#result');
-const backspace = document.querySelector('#backspace')
+const backspace = document.querySelector('#backspace');
+const operators = document.querySelectorAll('#operator');
 
 let operator , number1 , number2, trigger = true, keepTheValue = false, total =0;
 
@@ -21,25 +22,40 @@ function calculatorDisplay(){
                 keepTheValue = false;
                 display.textContent ="0"
                 adjustFontSize(display);
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                })
             }else if (button.value == "÷") {
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                })
                 button.classList.add('active');
                 operator = 0;
                 trigger = false;
                 display.textContent = "0";
                 return operator;
             }else if (button.value == "X") {
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                })
                 button.classList.add('active');
                 trigger= false;
                 operator = 1;
                 display.textContent = "0";
                 return operator;
             }else if (button.value =="-") {
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                })
                 button.classList.add('active');
                 trigger = false;
                 operator = 2;
                 display.textContent = "0";
                 return operator;
             }else if (button.value =='+') {
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                })
                 button.classList.add('active');
                 trigger = false;
                 operator =3;
@@ -163,6 +179,10 @@ function adjustFontSize(display) {
         display.style.fontSize = maxFontSize + 'px';
     }
 }
+
+
+
+
 
 adjustFontSize(display);
 calculatorDisplay();
