@@ -4,6 +4,7 @@
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector("#display")
 const result = document.querySelector('#result');
+const backspace = document.querySelector('#backspace')
 
 let operator , number1 , number2, trigger = true, keepTheValue = false, total =0;
 
@@ -13,12 +14,13 @@ let operator , number1 , number2, trigger = true, keepTheValue = false, total =0
 function calculatorDisplay(){
     buttons.forEach(button => {
         button.value = button.textContent;
-        adjustFontSize(display);
         button.addEventListener('click', () => {
+            adjustFontSize(display);
             if(button.value == "C") {
                 trigger = true;
                 keepTheValue = false;
                 display.textContent ="0"
+                adjustFontSize(display);
             }else if (button.value == "÷") {
                 button.classList.add('active');
                 operator = 0;
@@ -44,6 +46,16 @@ function calculatorDisplay(){
                 display.textContent = "0";
                 return operator;
             }else if (button.value =="=") {
+            }else if (button.value =="→" && trigger == true) {
+                keepTheValue = false;
+                display.textContent = display.textContent.slice(0, -1);
+                number1 = display.textContent;
+                return number1;
+            }else if(trigger == false && button.value =="→"){
+                keepTheValue = false;
+                display.textContent = display.textContent.slice(0, -1);
+                number2 = display.textContent;
+                return number2;
             }else if (trigger == true && button.value == ".") {
                 display.textContent += button.value;
                 number1 = display.textContent;
@@ -129,6 +141,10 @@ function operate(number1, number2, operator){
     adjustFontSize(display);
 }
 
+// backspace.addEventListener('click',() => {
+//     display.textContent = display.textContent.slice(0, -1);
+// })
+
 function adjustFontSize(display) {
     const maxFontSize = 200; // Maximum font size in pixels
     const minFontSize = 80; // Minimum font size in pixels
@@ -142,7 +158,7 @@ function adjustFontSize(display) {
         // Calculate the font size based on the number of characters
         let newSize = maxFontSize - (length - maxLength) * 30; // Scale down more aggressively
         newSize = Math.max(newSize, minFontSize); // Ensure font size doesn't go below min
-        display.style.fontSize = newSize + 'px'; 
+        display.style.fontSize = newSize + 'px';
     } else {
         display.style.fontSize = maxFontSize + 'px';
     }
